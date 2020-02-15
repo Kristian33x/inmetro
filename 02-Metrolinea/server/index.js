@@ -18,7 +18,8 @@ app.use('/api/buses', require('./routes/bus.routes'));
 app.use('/api/conductores', require('./routes/conductor.routes'));
 
 //Starting the server
-const server = app.listen(app.get('port'), () => {
+// const server = 
+app.listen(app.get('port'), () => {
     console.log('server running on port ', app.get('port'))
 });
 

@@ -10,7 +10,7 @@ export class RutaService {
 
   selectedRuta: Ruta;
   rutas: Ruta[];
-  readonly URL_API = 'http://localhost:3001/api/buses';
+  readonly URL_API = 'http://localhost:3000/api/buses';
 
   constructor(private http: HttpClient) {
     this.selectedRuta = new Ruta();
