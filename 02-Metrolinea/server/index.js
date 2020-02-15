@@ -1,12 +1,12 @@
-const express = require('express');
-const morgan = require('morgan');
-const app = express();
+// const express = require('express');
+// const morgan = require('morgan');
+// const app = express();
 // const cors = require('cors');
 // const { mongoose } = require('./database');
 
 
 // Settings
-app.set('port', process.env.PORT || 3001);
+// app.set('port', process.env.PORT || 3001);
 
 // Middlewares
 // app.use(morgan('dev'));

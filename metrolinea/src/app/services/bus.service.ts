@@ -11,7 +11,7 @@ export class BusService {
   selectedBus: Bus;
   bus: Bus[];
   private buses: Bus[];
-  readonly URL_API = 'http://localhost:3000/api/conductores';
+  readonly URL_API = '/api/conductores';
 
   constructor(private http: HttpClient) {
     this.selectedBus = new Bus();

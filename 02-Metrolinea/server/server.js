@@ -31,12 +31,12 @@ router.get('/', (req, res) => {
 // index.js
 
 // Settings
-app.set('port', process.env.PORT || 3000);
+// app.set('port', process.env.PORT || 3000);
 
-// Middlewares
-app.use(morgan('dev'));
-app.use(express.json());
-app.use(cors({ origin: 'http://localhost:4200' }))
+// // Middlewares
+// app.use(morgan('dev'));
+// app.use(express.json());
+// app.use(cors({ origin: 'http://localhost:4200' }))
 
 // Routes
 app.use('/api/buses', require('./routes/bus.routes'));

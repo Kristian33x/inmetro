@@ -8,8 +8,10 @@ import { BusService } from './bus.service';
 
 @Injectable()
 export class AuthService {
-  AUTH_SERVER = 'http://localhost:3000/user';
-  AUTH_SERVER2 = 'http://localhost:3000';
+  // AUTH_SERVER = 'http://localhost:3000/user';
+  // AUTH_SERVER2 = 'http://localhost:3000';
+  AUTH_SERVER = '/user';
+  AUTH_SERVER2 = '';
   authSubject = new BehaviorSubject(false);
   private token = '';
   id: any;
