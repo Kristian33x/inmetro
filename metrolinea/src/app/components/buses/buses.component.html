@@ -1,0 +1,12 @@
+<h1>RUTAS DE LOS DIFERENTES BUSES DE METROLINEA</h1>
+<hr>
+<div class="card-columns">
+
+    <!-- *ngFor="let bus of buses ; let i=index" -->
+
+    <app-tarjeta-bus [termino]="ruta.nombre" [ruta]="ruta" *ngFor="let ruta of rutas ;"></app-tarjeta-bus>
+    <!-- <app-tarjeta-bus [termino]="bus.nombre" [bus]="bus" *ngFor="let bus of busService.buses"></app-tarjeta-bus> -->
+
+
+
+</div>

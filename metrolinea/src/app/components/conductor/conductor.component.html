@@ -1,0 +1,59 @@
+<div class="jumbotron jumbotron-fluid animated fadeIn ">
+    <div class="container">
+        <h1 class="display-4">Compartir Ubicacion GPS Para Conductores</h1>
+
+        <h2>La ruta Asignado es: {{busAsociadoConductor.RutaAsociada.nombre}} </h2>
+        <h2>La Placa del Bus Asignado es: {{busAsociadoConductor.placa}} </h2>
+    </div>
+
+    <!-- <div class="main-container">
+        <h3>Raised Buttons</h3>
+        <div class="example-button-row">
+            <button mat-raised-button>Basic</button>
+            <button mat-raised-button color="primary">Primary</button>
+            <button mat-raised-button color="accent">Accent</button>
+            <button mat-raised-button color="warn">Warn</button>
+            <button mat-raised-button disabled>Disabled</button>
+            <a mat-raised-button routerLink=".">Link</a>
+        </div>
+
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+
+    </div> -->
+
+
+
+    <form class="user" #posicionForm="ngForm">
+
+        <br><br><br><br>
+        <label class="col-md-4 form-control-label" for="text-input"></label>
+        <button id="mostrarPosicion" mat-raised-button class="col-lg-3" (click)="mostrarPosicion()" color="accent">Mostrar Posicion</button>
+        <!-- <label class="col-md-2 form-control-label" for="text-input"></label> -->
+        <button id="noMostrarPosicion" mat-raised-button class="col-lg-3" (click)="noMostrarPosicion()" color="warn">No Mostrar Posicion</button>
+        <br><br><br><br>
+        <div class="form-group row">
+            <label class="col-md-3 form-control-label" for="text-input"></label>
+            <label class="col-md-3 form-control-label" for="text-input">Longitud</label>
+            <div class="col-md-3">
+                <input class="form-control form-control-user" type="text" name="longitud" #longitud="ngModel" [(ngModel)]="busAsociadoConductor.longitud" placeholder="Longitud">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-md-3 form-control-label" for="text-input"></label>
+            <label class="col-md-3 form-control-label" for="text-input">Latitud</label>
+            <div class="col-md-3">
+                <input class="form-control form-control-user" type="text" name="latitud" #latitud="ngModel" [(ngModel)]="busAsociadoConductor.latitud" placeholder="Latitud">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-3 form-control-label" for="text-input"></label>
+            <label class="col-md-3 form-control-label" for="text-input">Sentido</label>
+            <div class="col-md-3">
+                <input class="form-control form-control-user" type="text" name="sentido" #sentido="ngModel" [(ngModel)]="busAsociadoConductor.sentido" placeholder="Sentido">
+            </div>
+        </div>
+    </form>
+
+
+</div>

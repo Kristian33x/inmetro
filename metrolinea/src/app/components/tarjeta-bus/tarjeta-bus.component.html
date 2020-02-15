@@ -1,0 +1,14 @@
+<div class="card animated fadeIn fast">
+    <img [src]="ruta.imagenBus" class="card-img-top" [alt]="ruta.nombre">
+    <div class="card-body">
+        <h5 class="card-title">{{ ruta.nombre }}</h5>
+        <p class="card-text">{{ ruta.descripcion }}</p>
+        <p class="card-text"><small class="text-muted">{{ ruta.Fecha }}</small></p>
+    </div>
+
+    <button (click)="verRuta()" type="button" class="btn btn-outline-success btn-block">ver más...</button>
+
+    <!-- <a [routerLink]="['/bus',i]" class="btn btn-outline-success">Ver mas link..</a> -->
+
+
+</div>

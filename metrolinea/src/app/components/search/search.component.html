@@ -1,0 +1,17 @@
+<h1>Buscando: <small>{{termino}}</small></h1>
+
+<div *ngIf='termino==""' (keyup)="irRutas()">
+
+</div>
+
+<div class="row animated fadeIn fast" *ngIf="rutasSearch.length==0">
+    <div class="col-md-12">
+        <div class="alert alert-info" role="alert">
+            No existen resultados con el termino: {{termino}}
+        </div>
+    </div>
+</div>
+
+<div class="card-columns">
+    <app-tarjeta-bus [termino]="ruta.nombre" [ruta]="ruta" *ngFor="let ruta of rutasSearch ;"></app-tarjeta-bus>
+</div>

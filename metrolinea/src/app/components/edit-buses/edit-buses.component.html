@@ -1,0 +1,774 @@
+<!-- COMPILED AND MINIFIED CSS -->
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
+<!-- MATERIAL ICONS -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<div class="row" style="align-content: initial">
+
+    <div class="col-lg-12 my-5">
+
+
+        <!-- Tabla Listado Rutas -->
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-address-book"></i> Rutas
+                <button (click)="resetForm(busForm)" type="button" title="Crear Ruta" class="btn btn-info" data-toggle="modal" data-target="#modalActualizarRutas">
+                            <i class="material-icons">add_to_photos</i>&nbsp;Nueva Ruta&nbsp;
+                        </button>
+            </div>
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <div class="input-group" ng-controller="ngifctrl">
+                            <select class="form-control col-md-3" id="opcion" name="opcion">
+                                      <option value="nombre">Nombre</option>
+                                    </select>
+                            <!-- (keyup)="buscarBus(buscarTexto.value)" (keydown.enter)="buscarBus(buscarTexto.value)" -->
+                            <input (keyup)="buscarRuta(buscarTexto.value)" (keydown.enter)="buscarRuta(buscarTexto.value)" type="text" id="texto" name="texto" class="form-control" placeholder="Texto a buscar" #buscarTexto>
+                            <!-- (click)="buscarBus(buscarTexto.value)" -->
+                            <button (click)="buscarRuta(buscarTexto.value)" type="button" title="Buscar" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Descripcion</th>
+                            <th>ImagenRuta</th>
+                            <th>NumeroDeBuses</th>
+                            <th>Fecha</th>
+                            <th>ImagenTipoRuta</th>
+                            <th>Operaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <!-- <tr *ngFor="let bus of busService.buses"> -->
+                        <tr *ngFor="let ruta of selectedRutas1">
+
+                            <td>{{ruta.nombre}}</td>
+                            <td>{{ruta.descripcion}}</td>
+                            <td width="20%">
+                                <!-- {{bus.imagenBus}} -->
+                                <img src="{{ruta.imagenBus}}" height="30%">
+                            </td>
+                            <td>{{ruta.NumBusesAsociados}}</td>
+                            <td>{{ruta.Fecha}}</td>
+                            <!-- <td>{{bus.imagenTipoBus}}</td> -->
+                            <td *ngIf="ruta.imagenTipoBus==='assets/img/padron.png'">Padron</td>
+                            <td *ngIf="ruta.imagenTipoBus==='assets/img/alimentador.png'">Alimentador</td>
+                            <td *ngIf="ruta.imagenTipoBus==='assets/img/articulado.png'">Articulado</td>
+                            <td>
+                                <!-- <a (click)="editBus(bus)">
+                                    <i class="material-icons">edit</i>
+                                </a>
+                                <a (click)="deleteBus(bus._id)">
+                                    <i class="material-icons">delete</i>
+                                </a> -->
+                                &nbsp;
+                                <button (click)="editRuta(ruta)" type="button" title="Editar Ruta" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalActualizarRutas">
+                                        <i class="material-icons">edit</i>
+                                      </button> &nbsp;
+                                <button (click)="editRuta(ruta)" type="button" title="Eliminar Ruta" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalEliminarRutas">
+                                        <i class="material-icons">delete</i>
+                                      </button>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row animated fadeIn fast" *ngIf="selectedRutas1.length==0">
+                    <div class="col-md-12">
+                        <div class="alert alert-info" role="alert">
+                            No existen resultados pata la busqueda.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Inicio del modal agregar/actualizar Rutas-->
+<div class="modal fade" id="modalActualizarRutas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-primary modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Agregar Ruta</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+
+                <form class="user" #rutaForm="ngForm" (ngSubmit)="addRuta(rutaForm)">
+
+                    <div class="form-group row">
+                        <div class="col-md-9">
+                            <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="rutaService.selectedRuta._id">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
+                        <div class="col-md-9">
+                            <input class="form-control form-control-user" type="text" name="nombre" #nombre="ngModel" [(ngModel)]="rutaService.selectedRuta.nombre" placeholder="Nombre">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">Descripcion</label>
+                        <div class="col-md-9">
+                            <input class="form-control form-control-user" type="text" name="descripcion" #descripcion="ngModel" [(ngModel)]="rutaService.selectedRuta.descripcion" placeholder="Descripcion">
+                        </div>
+                    </div>
+                    <!-- <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">ImagenRuta</label>
+                        <div class="col-md-9">
+                            <input class="form-control form-control-user" type="text" name="imagenBus" #imagenBus="ngModel" [(ngModel)]="rutaService.selectedRuta.imagenBus" placeholder="ImagenBus">
+                        </div>
+                    </div> -->
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">Fecha</label>
+                        <div class="col-md-9">
+                            <input class="form-control form-control-user" type="text" name="Fecha" #Fecha="ngModel" [(ngModel)]="rutaService.selectedRuta.Fecha" placeholder="Fecha">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input"></label>
+                        <div class="col-md-9">
+                            <input type="hidden" name="imagenBus" #imagenBus="ngModel" [(ngModel)]="rutaService.selectedRuta.imagenBus">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">ImagenTipoRuta</label>
+                        <div class="col-md-9">
+                            <!-- <input class="form-control form-control-user" type="text" name="imagenTipoBus" #imagenTipoBus="ngModel" [(ngModel)]="busService.selectedBus.imagenTipoBus" placeholder="ImagenTipoBus"> -->
+                            <input type="radio" name="imagenTipoBus" #imagenTipoBus="ngModel" [(ngModel)]="rutaService.selectedRuta.imagenTipoBus" value="assets/img/alimentador.png" checked> <img src="assets/img/alimentador.png" width="50%" height="30%">                            <br>
+                            <input type="radio" name="imagenTipoBus" #imagenTipoBus="ngModel" [(ngModel)]="rutaService.selectedRuta.imagenTipoBus" value="assets/img/padron.png"> <img src="assets/img/padron.png" width="50%" height="30%"><br>
+                            <input type="radio" name="imagenTipoBus" #imagenTipoBus="ngModel" [(ngModel)]="rutaService.selectedRuta.imagenTipoBus" value="assets/img/articulado.png"> <img src="assets/img/articulado.png" width="50%" height="30%">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <!-- <label class="col-md-3 form-control-label" for="text-input"></label> -->
+                        <div class="col-md-9">
+                            <input type="hidden" name="NumBusesAsociados" #NumBusesAsociados="ngModel" [(ngModel)]="rutaService.selectedRuta.NumBusesAsociados">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input"></label>
+                        <div class="col-md-9">
+                            <input type="hidden" name="arrayBuses" #arrayBuses="ngModel" [(ngModel)]="rutaService.selectedRuta.arrayBuses">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <div class="card-action">
+                            <div class="input-field">
+                                <button class="btn btn-primary btn-user mce-btn-group" style="margin-right: 7.5px;" (click)="resetForm(rutaForm)">
+                                                        Limpiar</button>
+                                <button class="btn btn-success btn-user mce-btn-group" (click)="addRuta(rutaForm)" data-dismiss="modal">
+                                                        Guardar</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--Fin del modal agregar/actualizar Rutas--->
+
+<!-- Inicio del modal Eliminar Ruta -->
+<div class="modal fade" id="modalEliminarRutas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-danger" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Eliminar Ruta {{selectedRuta1.nombre}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <p>Estas seguro de eliminar la Ruta?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button (click)="deleteRuta(selectedRuta1._id)" type="button" class="btn btn-danger" data-dismiss="modal">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fin del modal Eliminar Ruta -->
+
+<div class="container" style="left: initial">
+    <!-- <div class="card o-hidden border-0 shadow-lg my-5"> -->
+    <!-- <div class="card-body"> -->
+    <!-- <div class="row" style="align-content: initial"> -->
+
+    <!-- <div class="col-lg-4">
+            <div class="p-5">
+                <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Agregar Ruta!</h1>
+                </div>
+                <br>
+
+                <form class="user" #busForm="ngForm" (ngSubmit)="addBus(busForm)">
+
+                    <div class="form-group">
+                        <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="busService.selectedBus._id">
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control form-control-user" type="text" name="nombre" #nombre="ngModel" [(ngModel)]="busService.selectedBus.nombre" placeholder="Nombre">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control form-control-user" type="text" name="descripcion" #descripcion="ngModel" [(ngModel)]="busService.selectedBus.descripcion" placeholder="descripcion">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control form-control-user" type="text" name="imagenBus" #imagenBus="ngModel" [(ngModel)]="busService.selectedBus.imagenBus" placeholder="imagenBus">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control form-control-user" type="text" name="Fecha" #Fecha="ngModel" [(ngModel)]="busService.selectedBus.Fecha" placeholder="Fecha">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control form-control-user" type="text" name="imagenTipoBus" #imagenTipoBus="ngModel" [(ngModel)]="busService.selectedBus.imagenTipoBus" placeholder="imagenTipoBus">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="hidden" name="NumBusesAsociados" #NumBusesAsociados="ngModel" [(ngModel)]="busService.selectedBus.NumBusesAsociados">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="hidden" name="arrayBuses" #arrayBuses="ngModel" [(ngModel)]="busService.selectedBus.arrayBuses">
+                    </div>
+
+                    <div class="card-action">
+                        <div class="input-field">
+                            <button class="btn btn-primary btn-user mce-btn-group" style="margin-right: 20px;" (click)="resetForm(busForm)">
+                                        Limpiar</button>
+                            <button class="btn btn-success btn-user mce-btn-group">
+                                        Guardar</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div> -->
+
+    <!-- <div class="col-lg-8">
+            <div class="p-5">
+                <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Rutas!</h1>
+                </div>
+                <br>
+                <table class="w3-table-all">
+                    <thead>
+                        <tr class="w3-light-grey w3-hover-red">
+                            <th>Nombre</th>
+                            <th>descripcion</th>
+                            <th>imagenBus</th>
+                            <th>Fecha</th>
+                            <th>imagenTipoBus</th>
+                            <th>Operaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="w3-hover-gray" *ngFor="let bus of busService.buses">
+
+                            <td>{{bus.nombre}}</td>
+                            <td>{{bus.descripcion}}</td>
+                            <td>{{bus.imagenBus}}</td>
+                            <td>{{bus.Fecha}}</td>
+                            <td>{{bus.imagenTipoBus}}</td>
+                            <td>
+                                <a (click)="editBus(bus)">
+                                    <i class="material-icons">edit</i>
+                                </a>
+                                <a (click)="deleteBus(bus._id)">
+                                    <i class="material-icons">delete</i>
+                                </a>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div> -->
+    <!-- // *********************************************************************************************** ************************* -->
+
+    <!-- </div> -->
+</div>
+
+<div class="row" style="align-content: initial">
+
+    <div class="col-lg-12 my-5">
+
+
+        <!-- Tabla Listado Buses -->
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-address-book"></i> Buses
+                <button (click)="resetForm1(busForm)" type="button" title="Crear Bus" class="btn btn-info" data-toggle="modal" data-target="#modalActualizarBus">
+                            <i class="material-icons">add_to_photos</i>&nbsp;Nuevo Bus&nbsp;
+                        </button>
+            </div>
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <div class="input-group" ng-controller="ngifctrl">
+                            <select class="form-control col-md-3" id="opcion" name="opcion">
+                                      <option value="placa">Placa</option>
+                                    </select>
+                            <!-- (keyup)="buscarBus(buscarTexto.value)" (keydown.enter)="buscarBus(buscarTexto.value)" -->
+                            <input (keyup)="buscarBus(buscarTexto1.value)" (keydown.enter)="buscarBus(buscarTexto1.value)" type="text" id="texto1" name="texto1" class="form-control" placeholder="Texto a buscar" #buscarTexto1>
+                            <!-- (click)="buscarBus(buscarTexto.value)" -->
+                            <button (click)="buscarBus(buscarTexto1.value)" type="button" title="Buscar" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>Placa</th>
+                            <th>Tipo Bus</th>
+                            <th>Ruta Asociada</th>
+                            <th>Conductor Asociado</th>
+                            <th>Coordenadas</th>
+                            <th>Operaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <!-- <tr *ngFor="let bus of conductorService.conductores"> -->
+                        <tr *ngFor="let bus of selectedBuses1">
+
+                            <td>{{bus.placa}}</td>
+                            <!-- <td>{{bus.tipoBus}}</td> -->
+                            <td *ngIf="bus.tipoBus==='assets/img/padron.png'">Padron</td>
+                            <td *ngIf="bus.tipoBus==='assets/img/alimentador.png'">Alimentador</td>
+                            <td *ngIf="bus.tipoBus==='assets/img/articulado.png'">Articulado</td>
+
+                            <td>{{bus.RutaAsociada.nombre}}</td>
+                            <td>{{bus.ConductorAsociado.nombre}}</td>
+                            <!-- <td><img src="{{conductor.RutaAsociada.imagenBus}}" width="30%" height="30%"></td> -->
+                            <td> {{bus.latitud}}, {{bus.longitud}}, {{bus.sentido}}</td>
+                            <!-- <td> {{conductor.RutaAsociada.nombre}}, {{conductor.RutaAsociada.NumBusesAsociados}}</td> -->
+                            <td>
+                                <!-- <a (click)="editBus(conductor)">
+                                    <i class="material-icons">edit</i>
+                                </a>
+                                <a (click)="deleteBus(conductor._id)">
+                                    <i class="material-icons">delete</i>
+                                </a> -->
+                                &nbsp;
+                                <button (click)="editBus(bus); getRutasByTipoBus(bus.tipoBus); resetForm2(asignarRutaBusForm);" type="button" title="Asignar Ruta" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalAsignarRutaBus">
+                                    <i class="material-icons">directions_bus</i>
+                                </button>&nbsp;
+                                <button (click)="editBus(bus); resetForm3(asignarconductorBusForm);" type="button" title="Asignar Conductor" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalAsignarConductorBus">
+                                    <i class="material-icons">assignment_ind</i>
+                                </button>&nbsp;
+                                <button (click)="editBus(bus)" type="button" title="Editar Bus" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalActualizarBus">
+                                    <i class="material-icons">edit</i>
+                                </button> &nbsp;
+                                <button (click)="editBus(bus)" type="button" title="Eliminar Bus" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalEliminarBus">
+                                    <i class="material-icons">delete</i>
+                                </button> &nbsp;
+                                <button (click)="editBus(bus); CuadroDialogo1()" type="button" title="Info Bus" class="btn btn-dark btn-sm">
+                                    <i class="material-icons">info</i>
+                                </button>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="row animated fadeIn fast" *ngIf="selectedBuses1.length==0">
+                    <div class="col-md-12">
+                        <div class="alert alert-info" role="alert">
+                            No existen resultados pata la busqueda.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Fin tabla listado Buses -->
+
+<!--Inicio del modal agregar/actualizar Bus-->
+<div class="modal fade" id="modalActualizarBus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-primary modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Agregar Bus</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+
+                <form class="user" #busForm="ngForm" (ngSubmit)="addBus(busForm)">
+
+                    <div class="form-group row">
+                        <div class="col-md-9">
+                            <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="busesService.selectedBus._id">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">Placa</label>
+                        <div class="col-md-9">
+                            <input class="form-control form-control-user" type="text" name="placa" #placa="ngModel" [(ngModel)]="busesService.selectedBus.placa" placeholder="Placa">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">Tipo Bus</label>
+                        <div class="col-md-9">
+                            <!-- <input class="form-control form-control-user" type="text" name="imagenTipoBus" #imagenTipoBus="ngModel" [(ngModel)]="busService.selectedBus.imagenTipoBus" placeholder="ImagenTipoBus"> -->
+                            <input type="radio" name="tipoBus" #tipoBus="ngModel" [(ngModel)]="busesService.selectedBus.tipoBus" value="assets/img/alimentador.png" checked> <img src="assets/img/alimentador.png" width="50%" height="30%"> <br>
+                            <input type="radio" name="tipoBus" #tipoBus="ngModel" [(ngModel)]="busesService.selectedBus.tipoBus" value="assets/img/padron.png"> <img src="assets/img/padron.png" width="50%" height="30%"><br>
+                            <input type="radio" name="tipoBus" #tipoBus="ngModel" [(ngModel)]="busesService.selectedBus.tipoBus" value="assets/img/articulado.png"> <img src="assets/img/articulado.png" width="50%" height="30%">
+                        </div>
+                    </div>
+                    <!-- <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">Tipo Bus</label>
+                        <div class="col-md-9">
+                            <input class="form-control form-control-user" type="text" name="tipoBus" #tipoBus="ngModel" [(ngModel)]="busesService.selectedBus.tipoBus" placeholder="tipoBus">
+                        </div>
+                    </div> -->
+                    <div class="form-group row">
+                        <div class="col-md-9">
+                            <!-- <input class="form-control form-control-user" type="text" name="RutaAsociada" #RutaAsociada="ngModel" [(ngModel)]="conductorService.selectedConductor.RutaAsociada" placeholder="RutaAsociada"> -->
+                            <input type="hidden" name="RutaAsociada" #RutaAsociada="ngModel" [(ngModel)]="busesService.selectedBus.RutaAsociada">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-9">
+                            <!-- <input class="form-control form-control-user" type="text" name="RutaAsociada" #RutaAsociada="ngModel" [(ngModel)]="conductorService.selectedConductor.RutaAsociada" placeholder="RutaAsociada"> -->
+                            <input type="hidden" name="ConductorAsociado" #ConductorAsociado="ngModel" [(ngModel)]="busesService.selectedBus.ConductorAsociado">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-9">
+                            <input type="hidden" value=0 name="longitud" #longitud="ngModel" [(ngModel)]="busesService.selectedBus.longitud">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-9">
+                            <input type="hidden" name="latitud" #latitud="ngModel" [(ngModel)]="busesService.selectedBus.latitud">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input"></label>
+                        <div class="col-md-9">
+                            <input type="hidden" name="sentido" #sentido="ngModel" [(ngModel)]="busesService.selectedBus.sentido">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <div class="card-action">
+                            <div class="input-field">
+                                <button class="btn btn-primary btn-user mce-btn-group" style="margin-right: 7.5px;" (click)="resetForm1(busForm)">
+                                                        Limpiar</button>
+                                <button class="btn btn-success btn-user mce-btn-group" (click)="addBus(busForm)" data-dismiss="modal">
+                                                        Guardar</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--Fin del modal agg/act Bus-->
+
+
+<!-- Inicio del modal Eliminar Bus -->
+<div class="modal fade" id="modalEliminarBus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-danger" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Eliminar el Bus con Placa: {{selectedBus1.placa}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <p>Estas seguro de eliminar el Bus?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button (click)="deleteBus(selectedBus1._id)" type="button" class="btn btn-danger" data-dismiss="modal">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fin del modal Eliminar Bus -->
+
+<!-- Inicio del modal Asignar Ruta a Bus -->
+<div class="modal fade" id="modalAsignarRutaBus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-danger" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Asignar una Ruta para el Bus: <b>{{selectedBus1.placa}}</b>.</h4>
+                <h4 class="modal-title">Ruta Actual: <b>{{selectedBus1.RutaAsociada.nombre}} </b>.</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Seleccione la ruta que va ser asignada. </p>
+
+                <form class="user" #asignarRutaBusForm="ngForm">
+                    <div class="form-group row">
+                        <!-- <div class="col-1"></div>
+                    <div class="col-11"> -->
+                        <select class="modal-body" name="ruta" ngModel> 
+                            <option value="" selected disabled>Seleccione una ruta</option>
+                            <option value="">Quitar Ruta </option>
+                            <!-- <option *ngFor="let ruta of selectedRutas1" [ngValue]="ruta" >{{ruta.nombre}}</option> -->
+                            <option *ngFor="let ruta of selectedRutas2" [ngValue]="ruta" >{{ruta.nombre}}</option>
+                        </select>
+                    </div>
+
+                    <!-- </div> -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button (click)="asignarRutaBus(asignarRutaBusForm)" type="button" class="btn btn-success" data-dismiss="modal"><i class="material-icons">save</i> Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fin del modal Asignar Ruta a Bus -->
+
+<!-- Inicio del modal Asignar Conductor a Bus -->
+<div class="modal fade" id="modalAsignarConductorBus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-danger" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Asignar un Conductor para el Bus: <b>{{selectedBus1.placa}}</b>.</h4>
+                <!-- // **ngIf="selectedBus1.ConductorAsociado != ''"  -->
+                <h4 class="modal-title">Conductor Actual: <b>{{selectedBus1.ConductorAsociado.nombre}} </b>.</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Seleccione el Conductor que va ser asignado. </p>
+
+                <form class="user" #asignarconductorBusForm="ngForm">
+                    <div class="form-group row">
+                        <select class="modal-body" name="conductor" ngModel> 
+                            <option value="" disabled selected>Seleccione un Conductor</option>
+                            <option value="">Quitar Conductor : </option>
+                            <option *ngFor="let conductor of conductoresSinBus" [ngValue]="conductor" >{{conductor.nombre}}</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button (click)="asignarConductorBus(asignarconductorBusForm)" type="button" class="btn btn-success" data-dismiss="modal"><i class="material-icons">save</i> Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fin del modal Asignar Conductor a Bus -->
+
+<!-- // *********************************************************************************************** ************************* -->
+<!-- // *********************************************************************************************** ************************* -->
+<!-- // *********************************************************************************************** ************************* -->
+<!-- // *********************************************************************************************** ************************* -->
+<!-- // *********************************************************************************************** ************************* -->
+
+<!-- Tabla Listado Conductores UserI -->
+<div class="row" style="align-content: initial">
+
+    <div class="col-lg-12 my-5">
+
+
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-address-book"></i> Conductores
+            </div>
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <div class="input-group" ng-controller="ngifctrl">
+                            <select class="form-control col-md-3" id="opcion" name="opcion">
+                                      <option value="nombre">Nombre</option>
+                                    </select>
+                            <!-- (keyup)="buscarBus(buscarTexto.value)" (keydown.enter)="buscarBus(buscarTexto.value)" -->
+                            <input (keyup)="buscarConductor(buscarTexto2.value)" (keydown.enter)="buscarConductor(buscarTexto2.value)" type="text" id="texto2" name="texto2" class="form-control" placeholder="Texto a buscar" #buscarTexto2>
+                            <!-- (click)="buscarBus(buscarTexto.value)" -->
+                            <button (click)="buscarConductor(buscarTexto2.value)" type="button" title="Buscar" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Contrasena</th>
+                            <th>TipoUsuario</th>
+                            <th>Estado</th>
+                            <th>Operaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <!-- <tr *ngFor="let bus of conductorService.conductores"> -->
+                        <tr *ngFor="let conductor of selectedConductores1">
+
+                            <td>{{conductor.nombre}}</td>
+                            <td>{{conductor.email}}</td>
+                            <td>{{conductor.contrasena}}</td>
+                            <td>{{conductor.tipoUsuario}}</td>
+                            <td>{{conductor.estado}}</td>
+                            <td>
+                                <button (click)="editConductor(conductor)" type="button" title="Editar Conductor" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalActualizarConductor">
+                                    <i class="material-icons">edit</i>
+                                </button> &nbsp;
+                                <button (click)="editConductor(conductor)" type="button" title="Eliminar Conductor" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalEliminarConductor">
+                                    <i class="material-icons">delete</i>
+                                </button>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="row animated fadeIn fast" *ngIf="selectedConductores1.length==0">
+                    <div class="col-md-12">
+                        <div class="alert alert-info" role="alert">
+                            No existen resultados pata la busqueda.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Fin tabla listado Buses -->
+
+<!--Inicio del modal actualizar Bus-->
+<div class="modal fade" id="modalActualizarConductor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-primary modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Editar Conductor</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+
+                <form class="user" #conductorForm="ngForm" (ngSubmit)="addConductor(conductorForm)">
+
+                    <div class="form-group row">
+                        <div class="col-md-9">
+                            <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="selectedConductor1._id">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
+                        <div class="col-md-9">
+                            <input class="form-control form-control-user" type="text" name="nombre" #nombre="ngModel" [(ngModel)]="selectedConductor1.nombre" placeholder="nombre">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">Email</label>
+                        <div class="col-md-9">
+                            <input class="form-control form-control-user" type="text" name="email" #email="ngModel" [(ngModel)]="selectedConductor1.email" placeholder="email">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">Contrasena</label>
+                        <div class="col-md-9">
+                            <input class="form-control form-control-user" type="text" name="contrasena" #contrasena="ngModel" [(ngModel)]="selectedConductor1.contrasena" placeholder="contrasena">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-9">
+                            <input type="hidden" name="tipoUsuario" #tipoUsuario="ngModel" [(ngModel)]="selectedConductor1.tipoUsuario">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-9">
+                            <input type="hidden" name="estado" #estado="ngModel" [(ngModel)]="selectedConductor1.estado">
+                        </div>
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <div class="card-action">
+                            <div class="input-field">
+                                <button class="btn btn-primary btn-user mce-btn-group" style="margin-right: 7.5px;" (click)="resetForm3(conductorForm)">
+                                                        Limpiar</button>
+                                <button class="btn btn-success btn-user mce-btn-group" (click)="addConductor(conductorForm)" data-dismiss="modal">
+                                                        Guardar</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--Fin del modal agg/act Bus-->
+
+<!-- Inicio del modal Eliminar Bus -->
+<div class="modal fade" id="modalEliminarConductor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-danger" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Eliminar el Conductor: {{selectedConductor1.nombre}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <p>Estas seguro de eliminar el Conductor?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button (click)="deleteConductor(selectedConductor1._id)" type="button" class="btn btn-danger" data-dismiss="modal">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fin del modal Eliminar Bus -->

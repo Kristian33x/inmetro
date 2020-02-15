@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <a class="navbar-brand" href="#">
+        <img src="assets/img/A-64.png" width="30" height="30" alt="">
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item " routerLinkActive="active" id="ocultar6">
+                <!-- <a class="nav-link">{{UsuarioActivo.tipoUsuario}} : {{ UsuarioActivo.nombre }}   .</a> -->
+                <a class="nav-link">{{auth.getUserLogueado().tipoUsuario}} : {{ auth.getUserLogueado().nombre }}   </a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link " [routerLink]="[ 'home'] "><i class="material-icons">home</i>Inicio </a>
+            </li>
+            <li class="nav-item " routerLinkActive="active">
+                <a class="nav-link " [routerLink]="[ 'buses'] "><i class="material-icons">commute</i>Rutas</a>
+            </li>
+            <li class="nav-item " routerLinkActive="active" id="ocultar1">
+                <a class="nav-link " [routerLink]="[ 'about'] "><i class="material-icons">build</i>Administrador</a>
+            </li>
+            <li class="nav-item " routerLinkActive="active" id="ocultar2">
+                <a class="nav-link " [routerLink]="[ 'registrar'] "><i class="material-icons">supervised_user_circle</i>Registrar</a>
+            </li>
+            <li class="nav-item " routerLinkActive="active" id="ocultar4">
+                <a class="nav-link " [routerLink]="[ 'login'] "><i class="material-icons">account_box</i>Inicio Sesion</a>
+            </li>
+            <li class="nav-item " routerLinkActive="active" id="ocultar5">
+                <a class="nav-link " [routerLink]="[ 'conductor'] "><i class="material-icons">directions_bus</i>Conductor</a>
+            </li>
+
+        </ul>
+
+
+        <form class="form-inline my-2 my-lg-0 ">
+            <input class="form-control mr-sm-2" type="text" placeholder="Buscar bus" (keyup)="buscarBus(buscarTexto.value)" (keydown.enter)="buscarBus(buscarTexto.value)" #buscarTexto>
+            <button (click)="buscarBus(buscarTexto.value)" class="btn btn-outline-success my-2 my-sm-0 " type="button">Buscar</button>
+        </form>
+        <li>
+            <button id="ocultar3" class="btn btn-outline-danger" (click)="salir()">Salir</button>
+        </li>
+    </div>
+</nav>
