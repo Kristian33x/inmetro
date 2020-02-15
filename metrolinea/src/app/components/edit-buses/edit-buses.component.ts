@@ -60,7 +60,7 @@ export class EditBusesComponent implements OnInit {
 
     form.value.imagenBus = `assets/img/${form.value.nombre}.png `;
 
-    console.log(form.value);
+    // console.log(form.value);
 
     if (form.value._id) {
         // console.log('Paso 1', form.value);
