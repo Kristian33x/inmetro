@@ -28,9 +28,9 @@ import { HomeComponent } from './components/home/home.component';
 import { SearchComponent } from './components/search/search.component';
 import { TarjetaBusComponent } from './components/tarjeta-bus/tarjeta-bus.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
-import { LoginComponent } from './components/usuario/login/login.component';
 import { RegisterComponent } from './components/usuario/register/register.component';
 import { ConductorComponent } from './components/conductor/conductor.component';
+import { LoginComponent } from './components/usuario/login/login.component';
 
 
 
@@ -52,7 +52,8 @@ import { ConductorComponent } from './components/conductor/conductor.component';
     NavbarComponent,
     LoginComponent,
     RegisterComponent,
-    ConductorComponent
+    ConductorComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

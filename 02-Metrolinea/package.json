@@ -5,7 +5,9 @@
     "main": "index.js",
     "scripts": {
         "dev": "cross-env NODE_ENV=development nodemon server/server.js",
-        "start": "cross-env NODE_ENV=production nodemon server/server.js"
+        "start": "cross-env NODE_ENV=production nodemon server/server.js",
+        "build": "ng build",
+        "postinstall": "ng build --aot --target=production"
     },
     "keywords": [],
     "license": "ISC",
