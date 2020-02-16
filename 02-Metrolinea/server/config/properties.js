@@ -1,4 +1,5 @@
 module.exports = {
     PORT: process.env.PORT || 3000,
-    DB: 'mongodb://localhost:27017/loginMetrolinea'
+    //DB: 'mongodb://localhost:27017/loginMetrolinea'
+    DB: process.env.URI2
 }

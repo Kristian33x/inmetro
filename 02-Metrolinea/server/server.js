@@ -1,11 +1,17 @@
 'use strict'
+
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
+
 const cors = require('cors');
 const authRoutes = require('./auth/auth.routes');
 const express = require('express');
 const properties = require('./config/properties');
 const DB = require('./config/db')
 const morgan = require('morgan');
-const { mongoose } = require('./database');
+// const { mongoose } = require('./database');
 
 DB();
 
